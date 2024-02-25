@@ -3,6 +3,7 @@ import { loadJsonFileSync} from 'load-json-file';
 import { Client, EmbedBuilder} from 'discord.js';
 const client = new Client({ intents: 3276799 });
 const PREFIX = "mx.";
+import fs from 'fs';
 
 // "Database"
 let globals = loadJsonFileSync('globals.json');
@@ -91,4 +92,14 @@ function countingChannel(message){
     }
 }
 
-client.login("MTIxMDAyODc5NjEyMDUzOTE2OA.GdQXWL.J-9vsexddq2Xhl_H2Cx7UynT-QIWeuMi90z47c").then(r => console.log(r));
+function readFileSyncAsString(filePath) {
+    try {
+        const data = fs.readFileSync(filePath, { encoding: 'utf8' });
+        return data; // process the data
+    } catch (error) {
+        console.error("Failed to read file:", error);
+        return null
+    }
+}
+
+client.login(readFileSyncAsString('./token.txt')).then(r => console.log(r));
